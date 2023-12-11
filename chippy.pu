@@ -1,0 +1,44 @@
+import tkinter as tk
+from tkinter import ttk
+
+def calculate_chip_load():
+    try:
+        feed_rate_m_min = float(feed_rate_entry.get())
+        feed_rate_in_min = feed_rate_m_min * 39.37  # Convert m/min to in/min
+        rpm = float(rpm_entry.get())
+        flutes = float(flutes_entry.get())
+        chip_load = feed_rate_in_min / (rpm * flutes)
+        result_label.config(text=f"Chip Load: {chip_load:.4f} inches/rev")
+    except ValueError:
+        result_label.config(text="Invalid input, please enter numbers only.")
+
+# Create the main window
+root = tk.Tk()
+root.title("Chip Load Calculator")
+
+# Create and place the input fields and labels
+feed_rate_label = ttk.Label(root, text="Feed Rate (m/min):")
+feed_rate_label.grid(row=0, column=0, padx=5, pady=5)
+feed_rate_entry = ttk.Entry(root)
+feed_rate_entry.grid(row=0, column=1, padx=5, pady=5)
+
+rpm_label = ttk.Label(root, text="RPM:")
+rpm_label.grid(row=1, column=0, padx=5, pady=5)
+rpm_entry = ttk.Entry(root)
+rpm_entry.grid(row=1, column=1, padx=5, pady=5)
+
+flutes_label = ttk.Label(root, text="Number of Flutes:")
+flutes_label.grid(row=2, column=0, padx=5, pady=5)
+flutes_entry = ttk.Entry(root)
+flutes_entry.grid(row=2, column=1, padx=5, pady=5)
+
+# Create and place the Calculate button
+calculate_button = ttk.Button(root, text="Calculate", command=calculate_chip_load)
+calculate_button.grid(row=3, column=0, columnspan=2, padx=5, pady=5)
+
+# Label to show the result
+result_label = ttk.Label(root, text="")
+result_label.grid(row=4, column=0, columnspan=2, padx=5, pady=10)
+
+# Start the GUI loop
+root.mainloop()
