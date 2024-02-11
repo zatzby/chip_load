@@ -95,29 +95,28 @@ saved_calculations_listbox.bind('<<ListboxSelect>>', display_calculation_details
 
 # Define the data for materials and their chip load ranges
 materials_data = [
-    ("MDF", "0.001 - 0.005 inches/rev", "1/4\", 1/2\""),
-    ("Plywood", "0.002 - 0.006 inches/rev", "1/4\", 1/2\""),
-    ("Particle Board", "0.001 - 0.004 inches/rev", "1/4\""),
-    ("Laminate", "0.002 - 0.007 inches/rev", "1/8\", 1/4\""),
-    ("Hardwood", "0.002 - 0.008 inches/rev", "1/4\", 3/8\", 1/2\"")
+    ("1/4\", 1/2\"", "MDF", "0.001 - 0.005 inches/rev"),
+    ("1/4\", 1/2\"", "Plywood", "0.002 - 0.006 inches/rev"),
+    ("1/4\"", "Particle Board", "0.001 - 0.004 inches/rev"),
+    ("1/8\", 1/4\"", "Laminate", "0.002 - 0.007 inches/rev"),
+    ("1/4\", 3/8\", 1/2\"", "Hardwood", "0.002 - 0.008 inches/rev")
 ]
 
 # Create a frame for the Treeview
 materials_frame = ttk.Frame(root)
 materials_frame.grid(row=8, column=0, columnspan=2, padx=5, pady=5, sticky="ew")
 
-# Update the Treeview widget to include a new column for bit size
-materials_treeview = ttk.Treeview(materials_frame, columns=("Material", "Chip Load Range", "Bit Size"), show="headings")
+materials_treeview = ttk.Treeview(materials_frame, columns=("Bit Size", "Material", "Chip Load Range"), show="headings")
+materials_treeview.heading("Bit Size", text="Bit Size")  # Moved to the first position
 materials_treeview.heading("Material", text="Material")
 materials_treeview.heading("Chip Load Range", text="Chip Load Range")
-materials_treeview.heading("Bit Size", text="Bit Size")  # New column heading
+materials_treeview.column("Bit Size", anchor="w")  # Moved to the first position for configuration
 materials_treeview.column("Material", anchor="w")
 materials_treeview.column("Chip Load Range", anchor="w")
-materials_treeview.column("Bit Size", anchor="w")  # New column configuration
 
 # Insert the updated data into the Treeview
-for material, chip_load_range, bit_size in materials_data:
-    materials_treeview.insert("", tk.END, values=(material, chip_load_range, bit_size))
+for bit_size, material, chip_load_range in materials_data:
+    materials_treeview.insert("", tk.END, values=(bit_size, material, chip_load_range))
 
 materials_treeview.pack(side="left", fill="both", expand=True)
 
